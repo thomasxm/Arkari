@@ -50,6 +50,28 @@ $ CFLAGS+="-mllvm -irobf -mllvm --irobf-indbr" or CXXFLAGS+="-mllvm -irobf -mllv
 $ ./configure
 $ make
 ```
+## Compiliation error:
+utf-8 is for compiliation on Windows, if compiling the project on Linux, use the following cmake instead:
+```
+cmake -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_ASSERTIONS=ON -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lld;lldb" -G "Ninja" ../llvm
+```
+
+If compiling the project on Linux with gcc and encountered erros like so: 
+```
+/home/kali/Arkari/llvm/lib/Transforms/Obfuscation/CryptoUtils.cpp:679:26: error: variable ‘std::ifstream devrandom’ has initializer but incomplete type
+  679 |   std::ifstream devrandom("/dev/urandom");
+      |                          ^
+/home/kali/Arkari/llvm/lib/Transforms/Obfuscation/CryptoUtils.cpp: In member function ‘int llvm::CryptoUtils::sha256_process(sha256_state*, const unsigned char*, long unsigned int)’:
+/home/kali/Arkari/llvm/lib/Transforms/Obfuscation/CryptoUtils.cpp:939:38: warning: cast from type ‘const unsigned char*’ to type ‘unsigned char*’ casts away qualifiers [-Wcast-qual]
+  939 |       if ((err = sha256_compress(md, (unsigned char *)in)) != 0) {
+      |                                      ^~~~~~~~~~~~~~~~~~~
+[977/6616] Building CXX object lib/Transforms/CFGuard/CMakeFiles/LLVMCFGuard.dir/CFGuard.cpp.o
+ninja: build stopped: subcommand failed.
+```
+add ```#include <fstream> // Add this line if it's missing``` to: 
+```
+/Arkari/llvm/lib/Transforms/Obfuscation/CryptoUtils.cpp
+```
 
 ## 参考资源
 + [Goron](https://github.com/amimo/goron)
