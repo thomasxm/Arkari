@@ -1,28 +1,27 @@
 # Arkari
-Yet another llvm based obfuscator based on [goron](https://github.com/amimo/goron).
+Another llvm based obfuscator based on [goron](https://github.com/amimo/goron).
 
-当前支持特性：
- - 混淆过程间相关
- - 间接跳转,并加密跳转目标(-mllvm -irobf-indbr)
- - 间接函数调用,并加密目标函数地址(-mllvm -irobf-icall)
- - 间接全局变量引用,并加密变量地址(-mllvm -irobf-indgv)
- - 字符串(c string)加密功能(-mllvm -irobf-cse)
- - 过程相关控制流平坦混淆(-mllvm -irobf-cff)
- - 全部 (-mllvm -irobf-indbr -mllvm -irobf-icall -mllvm -irobf-indgv -mllvm -irobf-cse -mllvm -irobf-cff)
+## Current Supported Features:
+- Correlation between obfuscation processes.
+- Indirect jumps, encrypting the jump targets (`-mllvm -irobf-indbr`).
+- Indirect function calls, encrypting the target function addresses (`-mllvm -irobf-icall`).
+- Indirect global variable references, encrypting the variable addresses (`-mllvm -irobf-indgv`).
+- C string encryption (`-mllvm -irobf-cse`).
+- Procedure-related control flow flattening obfuscation (`-mllvm -irobf-cff`).
+- Comprehensive application of all the above features (`-mllvm -irobf-indbr -mllvm -irobf-icall -mllvm -irobf-indgv -mllvm -irobf-cse -mllvm -irobf-cff`).
 
-对比于goron的改进：
- - 由于作者明确表示暂时(至少几万年吧)不会跟进llvm版本和不会继续更新. 所以有了这个版本(https://github.com/amimo/goron/issues/29)
- - 更新了llvm版本
- - 编译时输出文件名, 防止憋死强迫症
- - 修复了亿点点已知的bug
- ```
- - 修复了混淆后SEH爆炸的问题
- - 修复了dll导入的全局变量会被混淆导致丢失__impl前缀的问题
- - 修复了某些情况下配合llvm2019(2022)插件会导致参数重复添加无法编译的问题
- - 修复了x86间接调用炸堆栈的问题
- - ...
- ```
-## 编译
+
+## Improvements Over Goron:
+- Following the original author's announcement of no further updates for the foreseeable future, this version was initiated ([goron issue #29](https://github.com/amimo/goron/issues/29)).
+- Updated LLVM version.
+- Filename output during compilation to address organisational needs.
+- Fixed several known bugs:
+  - SEH explosions post-obfuscation.
+  - Loss of `__impl` prefix in dll-imported global variables due to obfuscation.
+  - Compilation issues when combined with llvm2019 (2022) plugin due to redundant argument addition.
+  - Stack corruption during x86 indirect calls.
+    
+## Compilation Instructions:
 
  - Windows(use Ninja, Ninja YYDS):
 ```
@@ -37,13 +36,14 @@ ninja
 
 ```
 
-## 使用
-跟ollvm类似,可通过编译选项开启相应混淆.
-如启用间接跳转混淆
+## Usage:
+
+Similar to OLLVM-obfuscator, enable specific obfuscations through compilation options. For example, to enable indirect jump obfuscation:
+
 ```
 $ path_to_the/build/bin/clang -mllvm -irobf -mllvm --irobf-indbr test.c
 ```
-对于使用autotools的工程
+For projects using autotools:
 ```
 $ CC=path_to_the/build/bin/clang or CXX=path_to_the/build/bin/clang
 $ CFLAGS+="-mllvm -irobf -mllvm --irobf-indbr" or CXXFLAGS+="-mllvm -irobf -mllvm --irobf-indbr" (or any other obfuscation-related flags)
@@ -73,7 +73,7 @@ add ```#include <fstream> // Add this line if it's missing``` to:
 /Arkari/llvm/lib/Transforms/Obfuscation/CryptoUtils.cpp
 ```
 
-## 参考资源
+## Reference:
 + [Goron](https://github.com/amimo/goron)
 + [Hikari](https://github.com/HikariObfuscator/Hikari)
 + [ollvm](https://github.com/obfuscator-llvm/obfuscator)
