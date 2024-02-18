@@ -23,17 +23,15 @@ Another llvm based obfuscator based on [goron](https://github.com/amimo/goron).
     
 ## Compilation Instructions:
 
- - Windows(use Ninja, Ninja YYDS):
-```
+ - Windows:
 install ninja in your PATH
 run x64(86) Native Tools Command Prompt for VS 2022(xx)
 run:
-
+```
 mkdir build_ninja
 cd build_ninja
 cmake -DCMAKE_CXX_FLAGS="/utf-8" -DCMAKE_BUILD_TYPE=Release -DLLVM_ENABLE_ASSERTIONS=ON -DLLVM_ENABLE_PROJECTS="clang;clang-tools-extra;lld;lldb" -G "Ninja" ../llvm
 ninja
-
 ```
 
 ## Usage:
@@ -41,14 +39,14 @@ ninja
 Similar to OLLVM-obfuscator, enable specific obfuscations through compilation options. For example, to enable indirect jump obfuscation:
 
 ```
-$ path_to_the/build/bin/clang -mllvm -irobf -mllvm --irobf-indbr test.c
+path_to_the/build/bin/clang -mllvm -irobf -mllvm --irobf-indbr test.c
 ```
 For projects using autotools:
 ```
-$ CC=path_to_the/build/bin/clang or CXX=path_to_the/build/bin/clang
-$ CFLAGS+="-mllvm -irobf -mllvm --irobf-indbr" or CXXFLAGS+="-mllvm -irobf -mllvm --irobf-indbr" (or any other obfuscation-related flags)
-$ ./configure
-$ make
+CC=path_to_the/build/bin/clang or CXX=path_to_the/build/bin/clang
+CFLAGS+="-mllvm -irobf -mllvm --irobf-indbr" or CXXFLAGS+="-mllvm -irobf -mllvm --irobf-indbr" (or any other obfuscation-related flags)
+./configure
+make
 ```
 ## Compiliation error:
 utf-8 is for compiliation on Windows, if compiling the project on Linux, use the following cmake instead:
